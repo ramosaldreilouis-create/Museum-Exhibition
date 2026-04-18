@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Museum Exhibition</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+
+  /* Museum interior background */
+  background: url('https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=1920&q=80') center / cover no-repeat fixed;
+  position: relative;
+}
+
+/* Lighting overlay */
+body::before {
+  content: '';
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center,
+    rgba(255,255,255,0.7) 0%,
+    rgba(240,235,225,0.85) 60%,
+    rgba(220,210,190,0.9) 100%);
+  backdrop-filter: blur(3px);
+  z-index: -1;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* LEFT */
+.left {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 60px;
+  color: #2d1f12;
+  text-align: center;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.5), 0 0 20px rgba(212,175,55,0.5);
+}
+
+/* RIGHT */
+.right {
+  width: 50%;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(10px);
+  color: #3a2e1f;
+  padding: 40px;
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
+  border-left: 1px solid rgba(255,255,255,0.3);
+}
+
+/* SECTIONS */
+.section {
+  position: absolute;
+  inset: 40px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.section.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  background: rgba(255,255,255,0.9);
+  padding: 20px;
+  transition: 0.3s;
+}
+
+.sidebar.active { left: 0; }
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  display: none;
+}
+
+.overlay.active { display: block; }
+
+.menu-item {
+  margin: 15px 0;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* BUTTON */
+.open-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* SLIDER */
+.slider { position: relative; }
+
+.slide { display: none; }
+
+.slide.active { display: block; }
+
+.slide img {
+  width: 100%;
+  height: 390px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 8px solid #35342e;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* TEXT */
+.art-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+/* ARROWS */
+.slider-btn {
+  position: absolute;
+  top: 40%;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.prev { left: 0; }
+.next { right: 0; }
+
+/* DOTS */
+.dots {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  margin: 3px;
+  background: gray;
+  display: inline-block;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: black;
+}
+</style>
+</head>
+
+<body>
+
+<div class="open-btn" onclick="toggleMenu()">☰</div>
+
+<button class="open-btn" onclick="openMenu()">☰</button>
+
+<div class="overlay" onclick="closeMenu()"></div>
+
+<div class="sidebar" id="sidebar">
+  <div onclick="closeMenu()">✕</div>
+  <div class="menu-item" onclick="showSection('home')">Home</div>
+  <div class="menu-item" onclick="showSection('curators')">Curators</div>
+  <div class="menu-item" onclick="showSection('artworks')">Artworks</div>
+  <div class="menu-item" onclick="showSection('references')">References</div>
+</div>
+
+<div class="container">
+
+<!-- LEFT -->
+<div class="left">
+  <h1>Everyday Filipino<br>Life Through<br>Art</h1>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+
+<!-- HOME -->
+<div id="home" class="section active">
+  <h2></h2>
+  <p>
+   This exhibition focuses on the everyday life of Filipinos from 1946 to the present.
+   It highlights simple daily activities such as farming, selling in markets, helping 
+   farmer’s neighbors, and commuting. These moments may seem ordinary, but they reflect
+   the true identity of Filipinos as hardworking, resilient, and community-oriented people.
+   Through these artworks, we can see how daily life in the Philippines has changed over
+   time, from quiet rural settings to busy urban environments. Despite these changes, 
+   Filipino values such as cooperation, perseverance, and strong social connections
+   remain present. The artworks use different styles, colors, and compositions to show 
+   the rhythm and reality of everyday experiences. This exhibition reminds us that even 
+   simple routines can be meaningful and can represent culture and identity. By focusing 
+   on daily life, we are able to better understand the real stories of Filipinos across
+    generations.
+    </p>
+  </p>
+</div>
+
+<div id="curators" class="section">
+<p style="font-size:16px; line-height:2.0;"></p>
+  <h2>GROUP member </h2>
+  <p>
+   JAZMIN CLAIRE B. CASTRO
+  <p>
+   ALLIAH MAE U. GOROSPE
+  <p>
+   MIKAH ANTONETTE P. RAMOS
+  <p>
+  HANNALET M. STA. MARIA
+  </p>
+</div>
+
+<!-- ARTWORKS -->
+<div id="artworks" class="section">
+
+<div class="slider">
+
+<!-- AMORSOLO -->
+<div class="slide active">
+<img src="c:\Users\ASUS\Downloads\PLANTING RICE (1949).jpg">
+<div class="art-text">
+<b>Artist Name: Fernando Amorsolo Title of the Artwork: Planting Rice Year Created: 1949 Medium: Oil on Canvas Dimensions: 61 x 86.4 cm</b><br><br>
+The painting Planting Rice by Fernando Amorsolo beautifully captures the everyday life of Filipino farmers. The artwork highlights the dignity, resilience, and industrious spirit of Filipino farmers through Amorsolo's signature warm lighting and vibrant natural scenery. It celebrates the beauty of rural life while fostering national pride and appreciation for traditional practices. The warm tones of green, gold, and earth hues create a rich visual contrast, emphasizing the lushness of the Philippine countryside. Beyond its aesthetic beauty, Planting Rice carries deep cultural significance. By portraying rural life in an idealized manner, Amorsolo pays tribute to the Filipino farmer and the country's agricultural heritage. At a time when the Philippines was recovering from World War II, such paintings offered a vision of peace, stability, and instilled national pride. The work remains a timeless celebration of Filipino identity, capturing the essence of a way of life deeply rooted in nature, tradition, and indeed the very soul of a proud people. This artwork is a larger version of Amorsolo's
+</div>
+</div>
+
+<!-- MANANSALA -->
+<div class="slide">
+<img src="c:\Users\ASUS\Downloads\download.jpeg">
+<div class="art-text">
+<b>Artist Name: Vicente Manansala Title of the Artwork: Jeepneys Year Created: 1951 Medium: Enamel on Masonite Board Dimensions: 51 x 59 cm</b><br><br>
+The artwork Jeepneys by Vicente Manansala was created right after World War II during the rebuilding of the Philippines in 1951. Life in the city started to grow and change during that time. Jeepneys became one of the most popular ways of transportation for Filipinos. They turned into colorful public vehicles made from leftover military vehicles which people use everyday. The paintings use warm colors like yellow, orange and red to make it look lively and full of energy. In line with Manansala's modern style, the shapes are layered and not very detailed. He shows movement and the feeling of busy streets. The composition looks crowded, just like real traffic in the Philippines. This artwork is important because it shows something very common in Filipino daily life, such as riding jeepneys. It was able to turn something simple into something meaningful. It connects to the theme of the exhibition because it features everyday Filipino experiences in a simple and meaningful way.
+</div>
+</div>
+
+<!-- BENCAB -->
+<div class="slide">
+<img src="c:\Users\ASUS\Downloads\18937.jpg">
+<div class="art-text">
+<b>Artist Name: Benedicto Cabrera Title of the Artwork: Sabel Year Created: 1966 Medium: Oil on Canvas Dimensions: 100 cm x 80 cm</b><br><br>
+Benedicto Cabrera's (BenCab) artwork Sabel represents a homeless woman wandering in the streets of Manila. She shows people who are poor and often ignored in society. Bencab shows the reality of poverty in the Philippines through Sabel while highlighting the strength and dignity of people living in difficult situations. Sabel became an important artwork over time because it represents struggle and resilience in everyday life. The artwork has flowing shapes and string lines that create movement in the woman's clothes. Dark colors used are dark, like black, gray and brown give the painting a sad and serious mood. It looks emotional because of the rough texture and visible brushstrokes. These elements show the hardships and strength. This artwork matters because it features the life and struggle of ordinary people who are often unnoticed in society. Sabel shows importance to survival and resilience. It reflects the daily realities faced by many Filipinos and turns a simple person into a powerful symbol of strength.
+</div>
+</div>
+
+<!-- BOTONG -->
+<div class="slide">
+<img src="c:\Users\ASUS\Downloads\481814685_1157942582689135_69847159424414172_n.jpg">
+<div class="art-text">
+<b>Artist Name: Carlos “Botong” Francisco Title: Bayanihan Year: 1960 Medium: Oil on canvas Dimensions: Approx. large mural-scale work (exact size varies by version/exhibit)</b><br><br>
+The painting Bayanihan by Carlos “Botong” Francisco shows the traditional Filipino practice of neighbors helping each other, especially in moving a Nipa Hut from one place to another. It reflects the strong sense of unity, cooperation, and community spirit of Filipinos. The artwork is filled with movement and energy, as several men are shown carrying a Kahay kubo on their shoulders while others guide and support them. The figures are painted in a dynamic, almost rhythmic composition that makes the scene feel alive. Francisco's signature style is visible in the bold lines, simplified forms, and storytelling approach that captures Filipino daily life and culture. The colors are earthy and natural, mostly browns, greens, and muted tones, which emphasize rural life and simplicity. The focus is not just on the house being moved, but on the people working together as one, highlighting harmony and collective strength. Through this piece, Botong Francisco celebrates bayanihan as a core Filipino value. It reminds viewers that progress is achieved not by one person alone, but through unity, cooperation, and shared effort within the community.
+</div>
+</div>
+
+<!-- MALANG -->
+<div class="slide">
+<img src="c:\Users\ASUS\Downloads\12160.jpg">
+<div class="art-text">
+<b>Artist: Mauro Malang Santos Title: Vendor Year Created: 1973 Medium: Oil on canvas Dimensions: 122 cm x 122cm</b><br><br>
+Mauro Malang Santos is known for painting everyday Filipino life like vendors, families, and community scenes. In Vendor (1973), he shows a woman selling goods which represents small livelihoods in the Philippines. During the 1970s, many Filipinos depended on vending to support their families. Markets became important places where people buy and sell for everyday needs. Malang used bright colors to make the painting look lively even though the work vending is not an easy job. The simplified shapes of the figure make the artwork easy to understand. This artwork shows how hardworking Filipinos are and how they continue to survive through vending. Overall, the painting reflects everyday Filipino life and being hardworking. The artwork shows a female vendor carrying fruits. Bright colors like red, orange, yellow, and green stand out in the painting. The shapes are simplified and rounded, which is part of Malang's signature style. The lines are smooth and soft, creating a calm but lively atmosphere. The art focuses on the vendor, showing everyday Filipino livelihood. This artwork really matters because it represents everyday Filipino life, especially small vendors working to earn for their living. It connects to the exhibition theme Everyday Filipino Life by showing ordinary Filipinos and their daily work and hardworking
+</div>
+</div>
+
+<button class="slider-btn prev" onclick="changeSlide(-1)">❮</button>
+<button class="slider-btn next" onclick="changeSlide(1)">❯</button>
+
+</div>
+
+<div class="dots">
+<span class="dot active" onclick="goTo(0)"></span>
+<span class="dot" onclick="goTo(1)"></span>
+<span class="dot" onclick="goTo(2)"></span>
+<span class="dot" onclick="goTo(3)"></span>
+<span class="dot" onclick="goTo(4)"></span>
+</div>
+
+</div>
+
+<!-- REFERENCES -->
+<div id="references" class="section">
+<h2>References</h2>
+<p style="font-size:12px; line-height:1.5;">
+<li>
+Artnet. (n.d.). Mauro Malang Santos – Vendor artworks and auction results.                          
+https://www.artnet.com 
+<li>
+Kulay-Diwa. (n.d.). Botong Francisco – Artist profile.                                                                             
+https://kulay-diwa.com/artists/botong-francisco
+<li>
+Guillermo, A. G. (2020). Jeepneys. CCP Encyclopedia of Philippine Art.                                         
+https://epa-beta.zennerslab.com/3/82/2207/
+<li>
+National Museum of the Philippines. (2023). 95th Birth Anniversary of Mauro Malang Santos. 
+https://www.nationalmuseum.gov.ph/2023/01/20/95th-birth-anniversary-of-mauro-malang-santos/
+<li>
+Philippine Star. (2023). Our heroic DNA: Botong, Bayani and Bayanihan. 
+https://philstarlife.com/geeky/660360-heroic-dna-botong-bayani-bayanihan⁠
+<li>
+Singulart. (2024). Sabel by Benedicto Cabrera. 
+https://www.singulart.com/blog/en/2024/04/09/sabel-by-benedicto-cabrera/
+<li>
+Salcedo. (n.d) Fernando Amorsolo Planting Rice.                                    
+https://members.salcedoauctions.com/item/40764
+</li>
+</div>
+
+</div>
+</div>
+
+<script>
+function openMenu() {
+  document.getElementById("sidebar").classList.add("active");
+  document.querySelector(".overlay").classList.add("active");
+}
+
+function closeMenu() {
+  document.getElementById("sidebar").classList.remove("active");
+  document.querySelector(".overlay").classList.remove("active");
+}
+
+function showSection(id) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  closeMenu();
+}
+
+/* SLIDER */
+let index = 0;
+const slides = document.querySelectorAll(".slide");
+const dots = document.querySelectorAll(".dot");
+
+function showSlide(i){
+  slides.forEach(s => s.classList.remove("active"));
+  dots.forEach(d => d.classList.remove("active"));
+  slides[i].classList.add("active");
+  dots[i].classList.add("active");
+}
+
+function changeSlide(n){
+  index = (index + n + slides.length) % slides.length;
+  showSlide(index);
+}
+
+function goTo(n){
+  index = n;
+  showSlide(index);
+}
+
+/* AUTO SLIDE */
+setInterval(() => {
+  changeSlide(1);
+}, 4000);
+</script>
+
+</body>
+</html>
